@@ -1,0 +1,120 @@
+---
+title: "Data Cleaning Final Project"
+author: "Daniel Morehouse"
+format: 
+  html:
+    embed-resources: true
+    code-tools: true
+    toc: true
+editor: source
+execute: 
+  echo: false
+  warning: false
+---
+
+```{r}
+#| label: library-setup
+#| include: false
+# Installing packages essential for the project.
+
+library(tidyverse)
+library(dplyr)
+library(readxl)
+library(openxlsx)
+```
+
+This data set comes from my independent Marine Biology & Oceanography Research (MBOR) project that I conducted in Fall 2024 at the Bermuda Institute of Ocean Sciences. On 3 separate collection days, I incubated sponge fragments of 2 different species, one with an active chemical defense (T. ignis) and the other with no defense mechanism (D. etheria). Over the collection period, I wanted to determine if there was a change in thermal stress response between the 2 species. The data that will be used for this project comes from the first day of collection, 11/15/2024.
+
+```{r}
+#| label: read-data-excel
+
+incubations <- read_excel("raw-data/MBORIncubations.xlsx", na = "N/A")
+```
+
+Through this data set, I wanted to answer 2 research questions:
+
+- How does the surface area differ between the two experimental species?
+- How does the respiration rate per hour differ between the ambient and heated treatments for each species?
+
+In order to achieve these goals, I need to modify the data set to make it easier to work with. I'll be cleaning this data set in 3 ways to answer my 2 research questions:
+
+1. Rename variables in order to manipulate them into code (including modifying variables with mutate)
+2. Selecting only the variables needed for data visualizations
+3. Reformat correct oxygen hour & surface area as doubles rather than character variables
+
+```{r}
+#| label: renaming-variables
+# Renamed variables for easy input into code, selected variables needed for data visualization
+
+modified_incubations <- incubations |>
+  rename(surface_area = `Surface Area (cm²)`) |>
+  rename(oxy_hour = `Correct Oxy Hour (µmol/h)`) |>
+  rename(species = `Sample ID`) |>
+  rename(temp_treatment = Treatment) |>
+  select(species, temp_treatment, surface_area, oxy_hour)
+```
+
+```{r}
+#| label: change-variable-types
+#| eval: false
+# Reading the y-axis variables for both figures as double rather than character, using mutate function
+
+modified_incubations |>
+  mutate(surface_area = as.double(surface_area)) |>
+  mutate(oxy_hour = as.double(oxy_hour))
+```
+
+```{r}
+#| label: removing-blanks
+# Removing the "cycle blanks" from the data set, only needed as controls to ensure the environments were stable
+# Also modifying the species variable with a separate function to make it easier to plot
+
+clean_incubations <- modified_incubations |>
+  slice(-c(10, 20, 28, 36)) |>
+  mutate(species_name = gsub("[ 0-9]", "", species))
+```
+
+```{r}
+#| label: reading-in-clean-data
+# Using write.xlsx to create a new sheet with my updated data set
+
+write.xlsx(clean_incubations, file = "clean-data/clean_incubations.xlsx")
+```
+
+Now that the data is thoroughly cleaned and read in, I can move forward and create the desired figures to hopefully answer my research questions. 
+
+```{r}
+#| label: surface-area-figure
+
+clean_incubations |> 
+  ggplot(aes(y = species_name, 
+             x = surface_area, 
+             color = temp_treatment))+
+  geom_boxplot() +
+  labs(x = "Surface Area (cm^2)",
+       y = "Sponge Species",
+       color = "Temperature Treatment",
+       title = "Difference in Surface Area Between Study Species") +
+  theme_light() + 
+  scale_color_manual(values = c("Ambient" = "Blue", "Heated" = "Red"))
+```
+
+This figure shows that the fragments of D. etheria were greater in size than the fragments of T. ignis - which corresponds with my experience from sampling. This is an important variable to consider when evaluating respiration rate as a greater surface area could impact the amount of gas exchange occurring.
+
+```{r}
+#| label: second-figure
+
+clean_incubations |> 
+  ggplot(aes(y = species_name, 
+             x = oxy_hour, 
+             color = temp_treatment))+
+  geom_boxplot() +
+  labs(x = "Correct Oxygen Hour (µmol/h)",
+       y = "Sponge Species",
+       color = "Temperature Treatment",
+       title = "Difference in Respiration Rate Between Study Species") +
+  theme_light() + 
+  scale_color_manual(values = c("Ambient" = "Blue", "Heated" = "Red"))
+```
+
+This figure shows that for both species, fragments in the heated treatment had a greater rate of respiration. Between species, the species with an active defense mechanism (T. ignis) had a greater rate of respiration in the heated treatment. It would require more data to evaluate whether or not this is a sign of heat-induced stress or productivity, but it is a great first step on the path to discovering a future bio-identifier in environments of temperature vulnerability.
