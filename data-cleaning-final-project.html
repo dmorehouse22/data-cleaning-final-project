@@ -3118,9 +3118,9 @@ vertical-align: -.125em;
 </ul>
 <p>In order to achieve these goals, I need to modify the data set to make it easier to work with. I’ll be cleaning this data set in 3 ways to answer my 2 research questions:</p>
 <ol type="1">
-<li>Rename variables in order to manipulate them into code (including modifying variables with mutate)</li>
+<li>Renaming variables in order to manipulate them into code (including modifying variables with mutate)</li>
 <li>Selecting only the variables needed for data visualizations</li>
-<li>Reformat correct oxygen hour &amp; surface area as doubles rather than character variables</li>
+<li>Reformatting correct oxygen hour &amp; surface area as variable type doubles rather than character</li>
 </ol>
 <p>Now that the data is thoroughly cleaned and read in, I can move forward and create the desired figures to hopefully answer my research questions.</p>
 <div class="cell">
@@ -3659,9 +3659,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>In order to achieve these goals, I need to modify the data set to make it easier to work with. I&#39;ll be cleaning this data set in 3 ways to answer my 2 research questions:</span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Rename variables in order to manipulate them into code (including modifying variables with mutate)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Renaming variables in order to manipulate them into code (including modifying variables with mutate)</span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Selecting only the variables needed for data visualizations</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Reformat correct oxygen hour &amp; surface area as doubles rather than character variables</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Reformatting correct oxygen hour &amp; surface area as variable type doubles rather than character</span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: renaming-variables</span></span>
@@ -3723,7 +3723,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>This figure shows that the fragments of D. etheria were greater in size than the fragments of T. ignis - which corresponds with my experience from sampling. This is an important variable to consider when evaluating respiration rate as a greater surface area could impact the amount of gas exchange occurring.</span>
 <span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: second-figure</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: respiration-rate-figure</span></span>
 <span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>clean_incubations <span class="sc">|&gt;</span> </span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> species_name, </span>

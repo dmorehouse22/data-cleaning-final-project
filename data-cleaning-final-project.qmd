@@ -38,9 +38,9 @@ Through this data set, I wanted to answer 2 research questions:
 
 In order to achieve these goals, I need to modify the data set to make it easier to work with. I'll be cleaning this data set in 3 ways to answer my 2 research questions:
 
-1. Rename variables in order to manipulate them into code (including modifying variables with mutate)
+1. Renaming variables in order to manipulate them into code (including modifying variables with mutate)
 2. Selecting only the variables needed for data visualizations
-3. Reformat correct oxygen hour & surface area as doubles rather than character variables
+3. Reformatting correct oxygen hour & surface area as variable type doubles rather than character
 
 ```{r}
 #| label: renaming-variables
@@ -102,7 +102,7 @@ clean_incubations |>
 This figure shows that the fragments of D. etheria were greater in size than the fragments of T. ignis - which corresponds with my experience from sampling. This is an important variable to consider when evaluating respiration rate as a greater surface area could impact the amount of gas exchange occurring.
 
 ```{r}
-#| label: second-figure
+#| label: respiration-rate-figure
 
 clean_incubations |> 
   ggplot(aes(y = species_name, 
